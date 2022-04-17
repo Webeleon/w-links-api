@@ -59,7 +59,6 @@ describe('UsersService', () => {
     const user = await usersService.findOneByUsername('test');
     expect(user).toBeDefined();
     expect(user.username).toBe('test');
-    expect((user as any).passwordHash).not.toBeDefined();
   });
 
   it('findOne return null if the user is not in the db', async () => {

@@ -24,7 +24,7 @@ export class UsersService {
     return user;
   }
 
-  async findOneByUsername(username: string): Promise<UserDto | null> {
+  async findOneByUsername(username: string): Promise<UsersEntity | null> {
     const user = await this.usersRepo.findOne({
       where: {
         username,
@@ -35,7 +35,6 @@ export class UsersService {
       return null;
     }
 
-    const { passwordHash, ...userInfo } = user;
-    return userInfo;
+    return user;
   }
 }
