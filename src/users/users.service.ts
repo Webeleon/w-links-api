@@ -18,6 +18,7 @@ export class UsersService {
     const user = this.usersRepo.create({
       ...userInfo,
       passwordHash: await bcrypt.hash(registerUserDto.password, 10),
+      active: false,
     });
     await this.usersRepo.save(user);
 

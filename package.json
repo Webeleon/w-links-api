@@ -97,6 +97,6 @@
     ]
   },
   "lint-staged": {
-    "*.{ts,json,md}": "prettier --write ."
+    "{test,src}/**/*.{ts,json,md}": "prettier --write ."
   }
 }

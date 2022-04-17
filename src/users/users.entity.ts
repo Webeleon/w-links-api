@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { LinksEntity } from '../links/links.entity';
 
 @Entity()
 export class UsersEntity {
@@ -34,4 +36,7 @@ export class UsersEntity {
     default: false,
   })
   active: boolean;
+
+  @OneToMany(() => LinksEntity, (link) => link.owner)
+  links: LinksEntity[];
 }
