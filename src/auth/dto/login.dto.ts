@@ -1,3 +1,4 @@
 export class LoginDto {
-  access_token: string;
+  username: string;
+  password: string;
 }
