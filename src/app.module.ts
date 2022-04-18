@@ -8,6 +8,9 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { LinksModule } from './links/links.module';
 import { APP_PIPE } from '@nestjs/core';
+import { UsersEntity } from './users/users.entity';
+import { LinksEntity } from './links/links.entity';
+import { RedirectEventEntity } from './links/statistics/redirect-event.entity';
 
 @Module({
   imports: [
@@ -19,7 +22,7 @@ import { APP_PIPE } from '@nestjs/core';
       inject: [databaseConfig.KEY],
       useFactory: (dbConfig) => ({
         ...dbConfig,
-        autoLoadEntities: true,
+        autoLoadEntities: [UsersEntity, LinksEntity, RedirectEventEntity],
         synchronize: true,
       }),
     }),
