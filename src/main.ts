@@ -18,6 +18,7 @@ async function bootstrap() {
   SwaggerModule.setup('swagger', app, swaggerDocument);
 
   app.use(morgan('combined'));
+  app.enableCors();
 
   const config = app.get<ConfigType<typeof appConfig>>(appConfig.KEY);
   await app.listen(config.port, () => {
