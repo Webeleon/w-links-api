@@ -6,6 +6,7 @@ import { LinksEntity } from './links.entity';
 import { UsersModule } from '../users/users.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { CqrsModule } from '@nestjs/cqrs';
+import { MetadataController } from './metadata/metadata.controller';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { CqrsModule } from '@nestjs/cqrs';
     CqrsModule,
   ],
   providers: [LinksService],
-  controllers: [LinksController],
+  controllers: [LinksController, MetadataController],
 })
 export class LinksModule {}

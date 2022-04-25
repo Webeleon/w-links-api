@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Links metadata (e2e) /links/metadata/types (GET) 1`] = `
+Array [
+  "discord",
+  "youtube",
+  "tiktok",
+  "linkedin",
+  "devto",
+  "github",
+  "twitch",
+  "other",
+]
+`;

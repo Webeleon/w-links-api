@@ -3,15 +3,25 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { UsersEntity } from '../users/users.entity';
+import { RedirectEventEntity } from './statistics/redirect-event.entity';
+import { LinksType } from './links-type.enum';
 
 @Entity()
 export class LinksEntity {
   @PrimaryGeneratedColumn('uuid')
   uuid: string;
+
+  @Column({
+    enum: LinksType,
+    default: LinksType.OTHER,
+    nullable: true,
+  })
+  type: LinksType;
 
   @Column()
   target: string;
@@ -29,4 +39,11 @@ export class LinksEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(
+    () => RedirectEventEntity,
+    (redirectEvent) => redirectEvent.link,
+    {},
+  )
+  events: RedirectEventEntity[];
 }

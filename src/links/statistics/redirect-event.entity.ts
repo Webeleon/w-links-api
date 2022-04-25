@@ -13,7 +13,7 @@ export class RedirectEventEntity {
   uuid: string;
 
   @ManyToOne(() => LinksEntity, {
-    eager: true,
+    onDelete: 'CASCADE',
   })
   link: LinksEntity;
 

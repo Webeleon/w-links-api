@@ -1,5 +1,4 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
-import { Logger } from '@nestjs/common';
 import { TrackRedirectEvent } from './track-redirect.event';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RedirectEventEntity } from './redirect-event.entity';

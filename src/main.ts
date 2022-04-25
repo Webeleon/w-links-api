@@ -11,7 +11,7 @@ async function bootstrap() {
 
   const documentConfig = new DocumentBuilder()
     .setTitle('W-Links API')
-    .setDescription('API to share links and get saring stats')
+    .setDescription('API to share links and get sharing stats')
     .addBearerAuth()
     .build();
   const swaggerDocument = SwaggerModule.createDocument(app, documentConfig);

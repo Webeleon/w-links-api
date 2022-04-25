@@ -18,7 +18,7 @@ import { JwtStrategy } from './jwt.strategy';
       useFactory: (config: ConfigType<typeof authConfig>) => ({
         secret: config.jwtSecret,
         signOptions: {
-          expiresIn: '60s',
+          expiresIn: '1h',
         },
       }),
     }),
