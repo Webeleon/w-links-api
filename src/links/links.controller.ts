@@ -20,8 +20,8 @@ import { UsersService } from '../users/users.service';
 import { User } from '../users/user.decorator';
 import { UsersEntity } from '../users/users.entity';
 import { EventBus } from '@nestjs/cqrs';
-import { TrackRedirectEvent } from './statistics/track-redirect.event';
 import { UpdateLinkDto } from './dto/update-link.dto';
+import { TrackRedirectEvent } from './track-redirect/track-redirect.event';
 
 @ApiTags('Links')
 @Controller('links')

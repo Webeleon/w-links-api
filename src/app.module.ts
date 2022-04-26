@@ -10,7 +10,8 @@ import { LinksModule } from './links/links.module';
 import { APP_PIPE } from '@nestjs/core';
 import { UsersEntity } from './users/users.entity';
 import { LinksEntity } from './links/links.entity';
-import { RedirectEventEntity } from './links/statistics/redirect-event.entity';
+import { RedirectEventEntity } from './links/track-redirect/redirect-event.entity';
+import { StatisticsModule } from './statistics/statistics.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { RedirectEventEntity } from './links/statistics/redirect-event.entity';
     AuthModule,
     UsersModule,
     LinksModule,
+    StatisticsModule,
   ],
   controllers: [HealthController],
   providers: [

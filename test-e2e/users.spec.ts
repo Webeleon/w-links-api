@@ -6,7 +6,7 @@ import { UsersEntity } from '../src/users/users.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
 
-describe('Health (e2e)', () => {
+describe('User (e2e)', () => {
   let app: INestApplication;
   let token: string;
 

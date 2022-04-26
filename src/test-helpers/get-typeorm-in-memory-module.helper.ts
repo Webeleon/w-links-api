@@ -1,7 +1,7 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersEntity } from '../users/users.entity';
 import { LinksEntity } from '../links/links.entity';
-import { RedirectEventEntity } from '../links/statistics/redirect-event.entity';
+import { RedirectEventEntity } from '../links/track-redirect/redirect-event.entity';
 
 export const getTypeormInMemoryModuleHelper = (entities: any[]) => [
   TypeOrmModule.forRoot({

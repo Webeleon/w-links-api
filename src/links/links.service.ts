@@ -3,7 +3,6 @@ import { LinksEntity } from './links.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateLinkDto } from './dto/create-link.dto';
-import { UsersService } from '../users/users.service';
 import { UsersEntity } from '../users/users.entity';
 import { UpdateLinkDto } from './dto/update-link.dto';
 
@@ -59,7 +58,6 @@ export class LinksService {
     uuid: string,
     updateLinkDto: UpdateLinkDto,
   ): Promise<number> {
-    Logger.debug(JSON.stringify(updateLinkDto));
     const updateResult = await this.linksRepo.update(
       {
         uuid,

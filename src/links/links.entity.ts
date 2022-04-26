@@ -8,8 +8,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UsersEntity } from '../users/users.entity';
-import { RedirectEventEntity } from './statistics/redirect-event.entity';
 import { LinksType } from './links-type.enum';
+import { RedirectEventEntity } from './track-redirect/redirect-event.entity';
 
 @Entity()
 export class LinksEntity {

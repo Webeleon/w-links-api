@@ -4,18 +4,19 @@ import { LinksController } from './links.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LinksEntity } from './links.entity';
 import { UsersModule } from '../users/users.module';
-import { StatisticsModule } from './statistics/statistics.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MetadataController } from './metadata/metadata.controller';
+import { TrackRedirectModule } from './track-redirect/track-redirect.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([LinksEntity]),
     UsersModule,
-    StatisticsModule,
     CqrsModule,
+    TrackRedirectModule,
   ],
   providers: [LinksService],
   controllers: [LinksController, MetadataController],
+  exports: [LinksService],
 })
 export class LinksModule {}
