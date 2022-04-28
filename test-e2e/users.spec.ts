@@ -20,6 +20,7 @@ describe('User (e2e)', () => {
     await userRepo.save([
       userRepo.create({
         username: 'test',
+        email: 'test@test.test',
         passwordHash: await bcrypt.hash('test', 10),
         active: true,
       }),
@@ -28,7 +29,7 @@ describe('User (e2e)', () => {
     const { body } = await request(app.getHttpServer())
       .post('/auth/login')
       .send({
-        username: 'test',
+        email: 'test@test.test',
         password: 'test',
       });
 

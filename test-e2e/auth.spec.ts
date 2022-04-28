@@ -6,7 +6,7 @@ import { UsersEntity } from '../src/users/users.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
 
-describe('Health (e2e)', () => {
+describe('Auth (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
@@ -19,11 +19,13 @@ describe('Health (e2e)', () => {
     await userRepo.save([
       userRepo.create({
         username: 'test',
+        email: 'test@test.test',
         passwordHash: await bcrypt.hash('test', 10),
         active: true,
       }),
       userRepo.create({
         username: 'inactive',
+        email: 'inactive@inactive.inactive',
         passwordHash: await bcrypt.hash('inactive', 10),
       }),
     ]);
@@ -37,7 +39,7 @@ describe('Health (e2e)', () => {
     const { status, body } = await request(app.getHttpServer())
       .post('/auth/login')
       .send({
-        username: 'test',
+        email: 'test@test.test',
         password: 'test',
       });
 
@@ -49,7 +51,7 @@ describe('Health (e2e)', () => {
     const { status, body } = await request(app.getHttpServer())
       .post('/auth/login')
       .send({
-        username: 'nope',
+        email: 'nope',
         password: 'nope',
       });
 
@@ -60,7 +62,7 @@ describe('Health (e2e)', () => {
     const { status, body } = await request(app.getHttpServer())
       .post('/auth/login')
       .send({
-        username: 'inactive',
+        email: 'inactive@inactive.inactive',
         password: 'inactive',
       });
 

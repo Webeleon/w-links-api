@@ -30,6 +30,7 @@ export const getAuthedTestingApp = async (): Promise<{
   );
   const user = userRepo.create({
     username: 'test',
+    email: 'test@test.test',
     passwordHash:
       '$2b$10$smnFMBktk2pI8/gbhw4xIOabd4M5WDcQhe31Vzd9bUF5uuXM3LZuS',
     active: true,
@@ -39,7 +40,7 @@ export const getAuthedTestingApp = async (): Promise<{
   const { status, body } = await request(app.getHttpServer())
     .post('/auth/login')
     .send({
-      username: 'test',
+      email: 'test@test.test',
       password: 'coco',
     });
 

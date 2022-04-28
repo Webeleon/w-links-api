@@ -11,7 +11,7 @@ import { StatisticsService } from './statistics.service';
 import { LinksService } from '../links/links.service';
 
 @Controller('statistics')
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard(['jwt', 'google-id-token']))
 export class StatisticsController {
   constructor(
     private readonly statsService: StatisticsService,

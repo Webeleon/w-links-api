@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UserDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
+import { RegisterGoogleUserDto } from './dto/register-google-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -25,10 +26,42 @@ export class UsersService {
     return user;
   }
 
-  async findOneByUsername(username: string): Promise<UsersEntity | null> {
+  async findOneOrCreateByGoogleIdOrEmail(
+    registerGoogleUserDto: RegisterGoogleUserDto,
+  ): Promise<UsersEntity> {
+    const user = await this.usersRepo.findOne({
+      googleId: registerGoogleUserDto.googleId,
+    });
+    if (user) {
+      return user;
+    }
+
+    const newUser = this.usersRepo.create({
+      ...registerGoogleUserDto,
+      active: true,
+    });
+    await this.usersRepo.save(newUser);
+    return newUser;
+  }
+
+  async findOneByUuid(uuid: string): Promise<UsersEntity | null> {
     const user = await this.usersRepo.findOne({
       where: {
-        username,
+        uuid,
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return user;
+  }
+
+  async findOneByEmail(email: string): Promise<UsersEntity | null> {
+    const user = await this.usersRepo.findOne({
+      where: {
+        email,
       },
     });
 

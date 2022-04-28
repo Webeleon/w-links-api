@@ -2,9 +2,9 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import { authConfig } from '../configurations/auth.config';
-import { UsersService } from '../users/users.service';
-import { UsersEntity } from '../users/users.entity';
+import { authConfig } from '../../configurations/auth.config';
+import { UsersService } from '../../users/users.service';
+import { UsersEntity } from '../../users/users.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -21,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any): Promise<UsersEntity> {
-    const user = await this.usersService.findOneByUsername(payload.username);
+    const user = await this.usersService.findOneByUuid(payload.sub);
     if (!user) {
       throw new UnauthorizedException(`Valid jwt but unknown user...`);
     }

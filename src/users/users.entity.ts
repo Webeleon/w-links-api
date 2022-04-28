@@ -14,15 +14,21 @@ export class UsersEntity {
   uuid: string;
 
   @Column({
-    unique: true,
+    nullable: true,
   })
-  username: string;
+  googleId?: string;
 
   @Column()
-  passwordHash: string;
+  username: string;
 
   @Column({
     nullable: true,
+  })
+  passwordHash?: string;
+
+  @Column({
+    nullable: true,
+    unique: true,
   })
   email: string;
 

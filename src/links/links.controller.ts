@@ -22,6 +22,7 @@ import { UsersEntity } from '../users/users.entity';
 import { EventBus } from '@nestjs/cqrs';
 import { UpdateLinkDto } from './dto/update-link.dto';
 import { TrackRedirectEvent } from './track-redirect/track-redirect.event';
+import { AuthenticatedGuard } from '../auth/guards/Authenticated.guard';
 
 @ApiTags('Links')
 @Controller('links')
@@ -44,9 +45,9 @@ export class LinksController {
     res.redirect(link.target);
   }
 
-  @Get('/public/:username')
-  async publicListByUsername(@Param('username') username: string) {
-    const user = await this.usersService.findOneByUsername(username);
+  @Get('/public/:uuid')
+  async publicListByUsername(@Param('uuid') uuid: string) {
+    const user = await this.usersService.findOneByUuid(uuid);
     if (!user) {
       throw new NotFoundException();
     }
@@ -55,19 +56,19 @@ export class LinksController {
   }
 
   @Post()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthenticatedGuard)
   async create(@Body() createLink: CreateLinkDto, @User() owner: UsersEntity) {
     return this.linksService.createLink(createLink, owner);
   }
 
   @Get()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthenticatedGuard)
   async getUserLinks(@User() user: UsersEntity) {
     return this.linksService.getUserLinks(user);
   }
 
   @Delete('/:uuid')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthenticatedGuard)
   async deleteLink(@User() user: UsersEntity, @Param('uuid') uuid: string) {
     const affected = await this.linksService.deleteLink(user, uuid);
     if (affected === 0) {
@@ -77,7 +78,7 @@ export class LinksController {
   }
 
   @Put('/:uuid')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthenticatedGuard)
   async updateLink(
     @Param('uuid') uuid: string,
     @Body() updateLinkDto: UpdateLinkDto,

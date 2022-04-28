@@ -41,6 +41,7 @@ describe('UsersService', () => {
   it('register', async () => {
     const user = await usersService.register({
       username: 'coco',
+      email: 'coco@coco.coco',
       password: 'coco',
     });
 
@@ -53,17 +54,5 @@ describe('UsersService', () => {
     });
 
     expect(userIdDb.passwordHash).not.toBe('coco');
-  });
-
-  it('findOne return the requested user', async () => {
-    const user = await usersService.findOneByUsername('test');
-    expect(user).toBeDefined();
-    expect(user.username).toBe('test');
-  });
-
-  it('findOne return null if the user is not in the db', async () => {
-    const user = await usersService.findOneByUsername('nope');
-
-    expect(user).toBe(null);
   });
 });
