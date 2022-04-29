@@ -7,12 +7,14 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { LinksEntity } from '../links/links.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class UsersEntity {
   @PrimaryGeneratedColumn('uuid')
   uuid: string;
 
+  @Exclude()
   @Column({
     nullable: true,
   })
@@ -21,6 +23,7 @@ export class UsersEntity {
   @Column()
   username: string;
 
+  @Exclude()
   @Column({
     nullable: true,
   })
