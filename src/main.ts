@@ -21,7 +21,7 @@ async function bootstrap() {
   app.enableCors();
 
   const config = app.get<ConfigType<typeof appConfig>>(appConfig.KEY);
-  await app.listen(config.port, () => {
+  await app.listen(config.port, config.baseUrl, () => {
     Logger.log(`Server running on ${config.port}...`, 'bootstrap');
   });
 }
