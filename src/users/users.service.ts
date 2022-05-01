@@ -6,6 +6,7 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { UserDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { RegisterGoogleUserDto } from './dto/register-google-user.dto';
+import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
 
 @Injectable()
 export class UsersService {
@@ -68,6 +69,19 @@ export class UsersService {
     if (!user) {
       return null;
     }
+
+    return user;
+  }
+
+  async updateUserProfile(
+    user: UsersEntity,
+    { username, email, password }: UpdateUserProfileDto,
+  ): Promise<UsersEntity> {
+    if (username) user.username = username;
+    if (email) user.email = email;
+    if (password) user.passwordHash = await bcrypt.hash(password, 10);
+
+    await this.usersRepo.save(user);
 
     return user;
   }

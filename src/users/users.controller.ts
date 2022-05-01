@@ -5,6 +5,7 @@ import {
   Request,
   Post,
   Body,
+  Put,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
@@ -14,6 +15,7 @@ import { AuthenticatedGuard } from '../auth/guards/Authenticated.guard';
 import { User } from './user.decorator';
 import { UsersEntity } from './users.entity';
 import { UserDto } from './dto/user.dto';
+import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -28,7 +30,19 @@ export class UsersController {
       username: user.username,
       email: user.email,
       active: user.active,
+      googleId: user.googleId,
     };
+  }
+
+  @Put('profile')
+  @UseGuards(AuthenticatedGuard)
+  async updateUserProfile(
+    @User() user: UsersEntity,
+    @Body() updateUserProfileDto: UpdateUserProfileDto,
+  ) {
+    return this.profile(
+      await this.usersService.updateUserProfile(user, updateUserProfileDto),
+    );
   }
 
   @Post()

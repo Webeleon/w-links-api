@@ -3,4 +3,5 @@ export class UserDto {
   username: string;
   email?: string;
   active: boolean;
+  googleId?: string;
 }

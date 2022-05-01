@@ -4,7 +4,6 @@ import { ConfigType } from '@nestjs/config';
 import { appConfig } from './configurations/app.config';
 import { Logger } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as morgan from 'morgan';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,7 +16,6 @@ async function bootstrap() {
   const swaggerDocument = SwaggerModule.createDocument(app, documentConfig);
   SwaggerModule.setup('swagger', app, swaggerDocument);
 
-  app.use(morgan('combined'));
   app.enableCors();
 
   const config = app.get<ConfigType<typeof appConfig>>(appConfig.KEY);
