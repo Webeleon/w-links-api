@@ -31,6 +31,11 @@ export class LinksEntity {
   })
   displayName?: string;
 
+  @Column({
+    default: 0,
+  })
+  order: number;
+
   @ManyToOne(() => UsersEntity, (user) => user.links)
   owner: UsersEntity;
 

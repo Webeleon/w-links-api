@@ -1,20 +1,19 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
+  Patch,
   Post,
+  Put,
+  Request,
   Response,
   UseGuards,
-  Request,
-  Delete,
-  Put,
-  Logger,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { LinksService } from './links.service';
-import { AuthGuard } from '@nestjs/passport';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/user.decorator';
@@ -23,6 +22,7 @@ import { EventBus } from '@nestjs/cqrs';
 import { UpdateLinkDto } from './dto/update-link.dto';
 import { TrackRedirectEvent } from './track-redirect/track-redirect.event';
 import { AuthenticatedGuard } from '../auth/guards/Authenticated.guard';
+import { OrderLinkDto } from './dto/order-link.dto';
 
 @ApiTags('Links')
 @Controller('links')
@@ -93,5 +93,14 @@ export class LinksController {
       throw new NotFoundException();
     }
     return;
+  }
+
+  @Patch('/manage/order')
+  @UseGuards(AuthenticatedGuard)
+  async orderLinks(
+    @User() user: UsersEntity,
+    @Body() linkOrder: OrderLinkDto[],
+  ) {
+    return this.linksService.order(user, linkOrder);
   }
 }

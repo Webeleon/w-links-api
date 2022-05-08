@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UsersEntity } from '../users/users.entity';
 import { UpdateLinkDto } from './dto/update-link.dto';
+import { OrderLinkDto } from './dto/order-link.dto';
 
 @Injectable()
 export class LinksService {
@@ -40,7 +41,7 @@ export class LinksService {
         owner: user,
       },
       order: {
-        createdAt: 1,
+        order: 1,
       },
     });
   }
@@ -66,5 +67,19 @@ export class LinksService {
       updateLinkDto,
     );
     return updateResult.affected;
+  }
+
+  async order(owner: UsersEntity, linkOrdersDto: OrderLinkDto[]) {
+    for (const linkOrderDto of linkOrdersDto) {
+      await this.linksRepo.update(
+        {
+          uuid: linkOrderDto.uuid,
+          owner,
+        },
+        {
+          order: linkOrderDto.order,
+        },
+      );
+    }
   }
 }
