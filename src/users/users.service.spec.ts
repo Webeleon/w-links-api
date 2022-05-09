@@ -37,22 +37,4 @@ describe('UsersService', () => {
   it('should be defined', () => {
     expect(usersService).toBeDefined();
   });
-
-  it('register', async () => {
-    const user = await usersService.register({
-      username: 'coco',
-      email: 'coco@coco.coco',
-      password: 'coco',
-    });
-
-    expect(user.uuid).toBeDefined();
-
-    const userIdDb = await userRepo.findOne({
-      where: {
-        uuid: user.uuid,
-      },
-    });
-
-    expect(userIdDb.passwordHash).not.toBe('coco');
-  });
 });

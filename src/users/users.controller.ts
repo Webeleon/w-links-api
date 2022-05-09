@@ -6,6 +6,7 @@ import {
   Post,
   Body,
   Put,
+  BadRequestException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
@@ -16,6 +17,7 @@ import { User } from './user.decorator';
 import { UsersEntity } from './users.entity';
 import { UserDto } from './dto/user.dto';
 import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
+import { UsernameNotAvailableException } from './exception/username-not-available.exception';
 
 @ApiTags('Users')
 @Controller('users')
@@ -40,13 +42,15 @@ export class UsersController {
     @User() user: UsersEntity,
     @Body() updateUserProfileDto: UpdateUserProfileDto,
   ) {
-    return this.profile(
-      await this.usersService.updateUserProfile(user, updateUserProfileDto),
-    );
-  }
-
-  @Post()
-  async register(@Body() registerUserDto: RegisterUserDto) {
-    return this.usersService.register(registerUserDto);
+    try {
+      return this.profile(
+        await this.usersService.updateUserProfile(user, updateUserProfileDto),
+      );
+    } catch (error: any) {
+      if (error instanceof UsernameNotAvailableException) {
+        throw new BadRequestException(error.message);
+      }
+      throw error;
+    }
   }
 }

@@ -7,6 +7,7 @@ import { UserDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { RegisterGoogleUserDto } from './dto/register-google-user.dto';
 import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
+import { UsernameNotAvailableException } from './exception/username-not-available.exception';
 
 @Injectable()
 export class UsersService {
@@ -15,16 +16,12 @@ export class UsersService {
     private readonly usersRepo: Repository<UsersEntity>,
   ) {}
 
-  async register(registerUserDto: RegisterUserDto): Promise<UserDto> {
-    const { password, ...userInfo } = registerUserDto;
-    const user = this.usersRepo.create({
-      ...userInfo,
-      passwordHash: await bcrypt.hash(registerUserDto.password, 10),
-      active: false,
+  async findOneByUsername(username: string): Promise<UsersEntity | null> {
+    return this.usersRepo.findOne({
+      where: {
+        username,
+      },
     });
-    await this.usersRepo.save(user);
-
-    return user;
   }
 
   async findOneOrCreateByGoogleIdOrEmail(
@@ -39,6 +36,9 @@ export class UsersService {
 
     const newUser = this.usersRepo.create({
       ...registerGoogleUserDto,
+      username: await this.generateAvailableUsername(
+        registerGoogleUserDto.username,
+      ),
       active: true,
     });
     await this.usersRepo.save(newUser);
@@ -77,12 +77,32 @@ export class UsersService {
     user: UsersEntity,
     { username, email, password }: UpdateUserProfileDto,
   ): Promise<UsersEntity> {
-    if (username) user.username = username;
+    if (username) {
+      if (await this.isUsernameAvailable(username)) {
+        user.username = username;
+      } else {
+        throw new UsernameNotAvailableException();
+      }
+    }
     if (email) user.email = email;
     if (password) user.passwordHash = await bcrypt.hash(password, 10);
 
     await this.usersRepo.save(user);
 
     return user;
+  }
+
+  private async isUsernameAvailable(username: string) {
+    return !!(await this.findOneByUsername(username));
+  }
+
+  private async generateAvailableUsername(username: string): Promise<string> {
+    if (await this.isUsernameAvailable(username)) {
+      return username;
+    } else {
+      return this.generateAvailableUsername(
+        `${username}${Math.floor(Math.random() * 1000)}`,
+      );
+    }
   }
 }

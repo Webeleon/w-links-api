@@ -20,7 +20,9 @@ export class UsersEntity {
   })
   googleId?: string;
 
-  @Column()
+  @Column({
+    unique: true,
+  })
   username: string;
 
   @Exclude()

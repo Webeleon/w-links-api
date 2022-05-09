@@ -45,9 +45,9 @@ export class LinksController {
     res.redirect(link.target);
   }
 
-  @Get('/public/:uuid')
-  async publicListByUsername(@Param('uuid') uuid: string) {
-    const user = await this.usersService.findOneByUuid(uuid);
+  @Get('/public/:username')
+  async publicListByUsername(@Param('username') username: string) {
+    const user = await this.usersService.findOneByUsername(username);
     if (!user) {
       throw new NotFoundException();
     }
