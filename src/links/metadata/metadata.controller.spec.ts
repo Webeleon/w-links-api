@@ -15,4 +15,8 @@ describe('MetadataController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
+  it('it match snapshot', () => {
+    expect(controller.linkTypesMetadata()).toMatchSnapshot();
+  });
 });

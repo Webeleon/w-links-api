@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Links metadata (e2e) /links/metadata/types (GET) 1`] = `
+exports[`MetadataController it match snapshot 1`] = `
 Array [
   "discord",
   "youtube",
