@@ -36,7 +36,9 @@ export class LinksEntity {
   })
   order: number;
 
-  @ManyToOne(() => UsersEntity, (user) => user.links)
+  @ManyToOne(() => UsersEntity, (user) => user.links, {
+    cascade: true,
+  })
   owner: UsersEntity;
 
   @CreateDateColumn()

@@ -12,6 +12,8 @@ import { UsersEntity } from './users/users.entity';
 import { LinksEntity } from './links/links.entity';
 import { RedirectEventEntity } from './links/track-redirect/redirect-event.entity';
 import { StatisticsModule } from './statistics/statistics.module';
+import { ThemesModule } from './themes/themes.module';
+import { ThemeEntity } from './themes/theme.entity';
 
 @Module({
   imports: [
@@ -23,7 +25,12 @@ import { StatisticsModule } from './statistics/statistics.module';
       inject: [databaseConfig.KEY],
       useFactory: (dbConfig) => ({
         ...dbConfig,
-        autoLoadEntities: [UsersEntity, LinksEntity, RedirectEventEntity],
+        autoLoadEntities: [
+          UsersEntity,
+          LinksEntity,
+          RedirectEventEntity,
+          ThemeEntity,
+        ],
         synchronize: true,
       }),
     }),
@@ -31,6 +38,7 @@ import { StatisticsModule } from './statistics/statistics.module';
     UsersModule,
     LinksModule,
     StatisticsModule,
+    ThemesModule,
   ],
   controllers: [HealthController],
   providers: [

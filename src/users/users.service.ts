@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from './users.entity';
 import { Repository } from 'typeorm';
-import { RegisterUserDto } from './dto/register-user.dto';
-import { UserDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { RegisterGoogleUserDto } from './dto/register-google-user.dto';
 import { UpdateUserProfileDto } from './dto/update-user-profile.dto';

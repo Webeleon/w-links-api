@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { LinksEntity } from '../links/links.entity';
 import { Exclude } from 'class-transformer';
+import { ThemeEntity } from '../themes/theme.entity';
 
 @Entity()
 export class UsersEntity {
