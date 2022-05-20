@@ -12,11 +12,10 @@ export class ThemesService {
   constructor(
     @InjectRepository(ThemeEntity)
     private readonly themeRepository: Repository<ThemeEntity>,
-    private readonly usersService: UsersService,
   ) {}
 
   async getThemeByUsernameOrCreate(username: string): Promise<ThemeEntity> {
-    let theme = await this.themeRepository.findOne({
+    return this.themeRepository.findOne({
       where: {
         owner: {
           username,
@@ -24,26 +23,12 @@ export class ThemesService {
       },
       relations: ['owner'],
     });
-
-    // TODO: remove, lazy hack to avoid creating migration
-    if (!theme) {
-      const user = await this.usersService.findOneByUsername(username);
-      if (!user) throw new UserNotFoundException();
-      theme = this.themeRepository.create({
-        owner: user,
-      });
-      await this.themeRepository.save(theme);
-    }
-
-    return theme;
   }
 
   async updateTheme(
     owner: UsersEntity,
     updateThemeDto: UpdateThemeDto,
   ): Promise<void> {
-    // TODO: remove, lazy hack to avoid creating migration
-    await this.getThemeByUsernameOrCreate(owner.username);
     await this.themeRepository.update(
       {
         owner,
