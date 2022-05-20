@@ -10,8 +10,11 @@ export class ThemesController {
   constructor(private readonly themeService: ThemesService) {}
 
   @Get(':username')
-  getThemeByUserName(@Param('username') username: string) {
-    return this.themeService.getThemeByUsernameOrCreate(username);
+  async getThemeByUserName(@Param('username') username: string) {
+    const theme = await this.themeService.getThemeByUsernameOrCreate(username);
+    delete theme.owner;
+    delete theme.uuid;
+    return theme;
   }
 
   @UseGuards(AuthenticatedGuard)
